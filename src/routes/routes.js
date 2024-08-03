@@ -642,6 +642,73 @@ router.delete('/tasks/:id', authMiddleware, authorizeRoles('admin', 'manager'), 
 
 /**
  * @swagger
+ * /tasks/{id}/assign:
+ *   patch:
+ *     summary: Assign a task to a user
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the task to be assigned
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: The user ID to whom the task will be assigned
+ *         schema:
+ *           type: object
+ *           properties:
+ *             assignedTo:
+ *               type: string
+ *               description: The ID of the user to whom the task will be assigned
+ *     responses:
+ *       200:
+ *         description: Task assigned successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 task:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: Task ID
+ *                     title:
+ *                       type: string
+ *                       description: Task title
+ *                     description:
+ *                       type: string
+ *                       description: Task description
+ *                     assignedTo:
+ *                       type: string
+ *                       description: Assigned user ID
+ *       403:
+ *         description: Forbidden, due to role-based access control or task already assigned
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Server error
+ */
+router.patch(
+  '/tasks/:id/assign',
+  [
+    authMiddleware,
+    authorizeRoles('admin', 'manager'),
+    check('assignedTo').isMongoId().withMessage('Assigned user ID must be a valid MongoDB ID')
+  ],
+  assignTask
+);
+
+/**
+ * @swagger
  * /tasks/unassign/{id}:
  *   put:
  *     summary: Unassign a task
