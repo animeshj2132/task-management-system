@@ -2,6 +2,7 @@ import Task from '../models/taskModel.js';
 import User from '../models/userModel.js';
 import moment from 'moment';
 import { GET_ASYNC, SET_ASYNC } from '../utils/caching.js';
+import { getBroadcastFunction } from '../utils/webSocket.js'; // Updated path if needed
 import mailgun from 'mailgun-js';
 import dotenv from 'dotenv';
 
@@ -63,6 +64,9 @@ export const createTask = async (req, res) => {
     // Save the task
     await task.save();
 
+    // Broadcast the new task creation
+    getBroadcastFunction({ type: 'task_created', task });
+
     // Send email if task is assigned
     if (assignedTo) {
       const assignedUser = await User.findById(assignedTo);
@@ -82,7 +86,6 @@ export const createTask = async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 };
-
 
 // Assign a task (admin or manager can assign)
 export const assignTask = async (req, res) => {
@@ -116,6 +119,9 @@ export const assignTask = async (req, res) => {
     // Assign the task
     task.assignedTo = assignedTo;
     await task.save();
+
+    // Broadcast the task assignment
+    getBroadcastFunction({ type: 'task_assigned', task });
 
     // Notify the user about the task assignment
     const assignedUser = await User.findById(assignedTo);
@@ -234,7 +240,6 @@ export const getAllTasks = async (req, res) => {
   }
 };
 
-
 // Update a task (Admins can update all, managers can update within their team, users can update their own)
 export const updateTask = async (req, res) => {
   try {
@@ -292,6 +297,9 @@ export const updateTask = async (req, res) => {
     }
 
     if (notifyUpdate) {
+      // Broadcast the task update
+      getBroadcastFunction({ type: 'task_updated', task });
+
       const assignedUser = await User.findById(task.assignedTo);
       if (assignedUser && assignedUser.email) {
         const subject = 'Task Updated';
@@ -326,6 +334,9 @@ export const deleteTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
+
+    // Broadcast the task deletion
+    getBroadcastFunction({ type: 'task_deleted', taskId });
 
     res.status(200).json({ message: 'Task deleted successfully' });
   } catch (error) {

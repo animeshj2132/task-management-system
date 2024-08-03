@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import routes from './routes/routes.js';
 import rateLimiter from './middleware/rateLimiter.js'
+import { setupWebSocket } from './utils/webSocket.js';
 
 dotenv.config();
 
@@ -61,8 +62,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Routes
 app.use('/', routes);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+setupWebSocket(server);
 export default app;

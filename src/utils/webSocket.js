@@ -1,28 +1,33 @@
-import { WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 
-// Create a WebSocket server
-const wss = new WebSocketServer({ noServer: true });
+let wss;
 
-// Object to store connected clients
-const clients = {};
+export const setupWebSocket = (server) => {
+  wss = new WebSocketServer({ server });
 
-// Function to send a message to a specific client
-export const notifyUser = (userId, message) => {
-  const client = clients[userId];
-  if (client && client.readyState === WebSocket.OPEN) {
-    client.send(JSON.stringify(message));
-  }
+  wss.on('connection', (ws) => {
+    console.log('WebSocket connection established');
+
+    ws.on('message', (message) => {
+      const messageString = message.toString('utf-8');
+      console.log('Received message:', messageString);
+    });
+
+    ws.on('close', () => {
+      console.log('WebSocket connection closed');
+    });
+
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
+  });
 };
 
-// Function to handle new connections
-wss.on('connection', (ws, request) => {
-  const userId = request.headers['sec-websocket-protocol'];
-  clients[userId] = ws;
-
-  // Remove the client when they disconnect
-  ws.on('close', () => {
-    delete clients[userId];
+export const getBroadcastFunction = (data) => {
+  const dataString = JSON.stringify(data);
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(dataString);
+    }
   });
-});
-
-export { wss, clients };
+};
