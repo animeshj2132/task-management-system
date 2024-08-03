@@ -259,7 +259,7 @@ router.get('/profile/:userId', authMiddleware, getProfileById);
  * /users/{userId}/assign-manager:
  *   patch:
  *     summary: Assign a manager to a user
- *     tags: [Users]
+ *     tags: [Auth]
  *     security:
  *       - bearerAuth: []
  *     parameters:
