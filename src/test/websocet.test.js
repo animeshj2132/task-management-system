@@ -27,7 +27,7 @@
 //       // Add your assertions here
 //       done();
 //     });
-    
+
 //     wsClient.on('error', (err) => {
 //       done(err);
 //     });

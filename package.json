@@ -1,11 +1,10 @@
 {
   "name": "task-management-system",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "task-management-system with role based authentiation and user management",
+  "main": "app.js",
   "scripts": {
-    "test": "mocha --require @babel/register --timeout 10000 'src/test/**/*.test.js'",
-    "test:watch": "mocha --watch --require @babel/register --timeout 10000 'src/test/**/*.test.js'"
+    "start": "node src/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,10 +27,11 @@
     "redis": "^4.7.0",
     "sib-api-v3-sdk": "^8.5.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+     "ws": "^8.18.0"
   },
   "devDependencies": {
     "supertest": "^7.0.0",
-    "ws": "^8.18.0"
+    "nodemon": "^3.1.4"
   }
 }

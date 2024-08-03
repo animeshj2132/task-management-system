@@ -1,11 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import helmet from 'helmet'; 
+import helmet from 'helmet';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import routes from './routes/routes.js';
-import rateLimiter from './middleware/rateLimiter.js'
+import rateLimiter from './middleware/rateLimiter.js';
 import { setupWebSocket } from './utils/webSocket.js';
 
 dotenv.config();
@@ -16,7 +16,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(helmet());
 app.use(express.json());
-app.use(rateLimiter); 
+app.use(rateLimiter);
 
 // Connect to MongoDB
 mongoose
@@ -53,7 +53,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./src/routes/*.js'],  // Fix the path here
+  apis: ['./src/routes/*.js'], // Fix the path here
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

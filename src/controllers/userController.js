@@ -12,7 +12,9 @@ export const register = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, email, password, role, managerId } = req.body;
+  const {
+    username, email, password, role, managerId,
+  } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -38,7 +40,7 @@ export const register = async (req, res) => {
         username: newUser.username,
         email: newUser.email,
         role: newUser.role,
-        managerId: newUser.managerId
+        managerId: newUser.managerId,
       },
     });
   } catch (err) {
@@ -97,12 +99,12 @@ export const getProfile = async (req, res) => {
     }
 
     // Prepare query object based on role
-    let query = {};
+    const query = {};
     if (reqUser.role === 'admin') {
       // Admin can view all profiles, optionally filter by roles
       const { roles, hasManager } = req.query;
       if (roles) {
-        const roleArray = roles.split(',').map(role => role.trim()); // Assuming roles are comma-separated
+        const roleArray = roles.split(',').map((role) => role.trim()); // Assuming roles are comma-separated
         query.role = { $in: roleArray };
       }
       if (hasManager === 'false') {
@@ -158,22 +160,20 @@ export const getProfileById = async (req, res) => {
     const reqUser = req.user;
 
     if (
-      reqUser.role === 'admin' ||
-      (reqUser.role === 'manager' && user.managerId?.toString() === reqUser._id.toString()) ||
-      reqUser._id.toString() === userId
+      reqUser.role === 'admin'
+      || (reqUser.role === 'manager' && user.managerId?.toString() === reqUser._id.toString())
+      || reqUser._id.toString() === userId
     ) {
       // Cache the profile before sending the response
       await SET_ASYNC(cacheKey, JSON.stringify(user));
 
       return res.status(200).json(user);
-    } else {
-      return res.status(403).json({ message: 'Access denied' });
     }
+    return res.status(403).json({ message: 'Access denied' });
   } catch (err) {
     return res.status(500).json({ message: 'Server error', err });
   }
 };
-
 
 export const assignManager = async (req, res) => {
   const { userId } = req.params;

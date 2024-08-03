@@ -9,7 +9,7 @@ const calculateAnalytics = async () => {
   const completedTasks = await Task.countDocuments({ status: 'completed' });
   const overdueTasks = await Task.countDocuments({
     status: { $ne: 'completed' },
-    dueDate: { $lt: new Date() }
+    dueDate: { $lt: new Date() },
   });
 
   const analytics = {
@@ -17,7 +17,7 @@ const calculateAnalytics = async () => {
     pendingTasks,
     inProgressTasks,
     completedTasks,
-    overdueTasks
+    overdueTasks,
   };
 
   return analytics;
@@ -39,4 +39,4 @@ const updateAnalytics = async () => {
   await sendAnalytics();
 };
 
-export { updateAnalytics, sendAnalytics };  // Ensure both functions are exported
+export { updateAnalytics, sendAnalytics }; // Ensure both functions are exported
