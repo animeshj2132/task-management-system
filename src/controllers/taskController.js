@@ -3,6 +3,9 @@ import User from '../models/userModel.js';
 import moment from 'moment';
 import { GET_ASYNC, SET_ASYNC } from '../utils/caching.js';
 import mailgun from 'mailgun-js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const validateDueDate = (dueDate) => {
   return moment(dueDate, 'DD/MM/YYYY', true).isValid();
@@ -10,8 +13,8 @@ const validateDueDate = (dueDate) => {
 
 // Initialize Mailgun
 const mg = mailgun({
-  apiKey: process.env.MAILGUN_API_KEY || "87d870ba4c774d671be4d638f25c2ee5-afce6020-af7f32cf",
-  domain: process.env.MAILGUN_DOMAIN || "sandboxc3c674c2fa324081a3c1e239f386119a.mailgun.org",
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN,
 });
 
 // Email sending function

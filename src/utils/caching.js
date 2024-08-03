@@ -1,9 +1,13 @@
 import { createClient } from 'redis';
+import dotenv from 'dotenv';
 
-const REDIS_USERNAME = process.env.REDIS_USERNAME || 'default';
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD || 'ertho80aVmFo6w7YdlL5abbhIL4DLU53';
-const REDIS_HOST = process.env.REDIS_HOST || 'redis-12074.c330.asia-south1-1.gce.redns.redis-cloud.com';
-const REDIS_PORT = process.env.REDIS_PORT || 12074;
+dotenv.config();
+
+
+const REDIS_USERNAME = process.env.REDIS_USERNAME;
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
+const REDIS_HOST = process.env.REDIS_HOST;
+const REDIS_PORT = process.env.REDIS_PORT;
 
 const redisClient = createClient({
   url: `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}`,
