@@ -43,4 +43,5 @@ jobs:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
         echo "Deploying to production server"
-        # Example: ssh user@your-server 'cd /app && git pull && npm install && pm2 restart app'
+        scp -r task-management-system user@your-server:/path/to/deploy
+        ssh user@your-server 'cd /path/to/deploy && npm install && pm2 restart app'
