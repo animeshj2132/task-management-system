@@ -22,7 +22,7 @@ jobs:
       run: npm ci
 
     - name: Run tests
-      run: npm test --config jest.config.cjs
+      run: npm test
       env:
         MONGODB_URL: ${{ secrets.MONGODB_URL }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
@@ -43,5 +43,4 @@ jobs:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
       run: |
         echo "Deploying to production server"
-        scp -r task-management-system user@your-server:/path/to/deploy
-        ssh user@your-server 'cd /path/to/deploy && npm install && pm2 restart app'
+        # Example: ssh user@your-server 'cd /app && git pull && npm install && pm2 restart app'
