@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGODB_URL=${MONGODB_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - REDIS_USERNAME=${REDIS_USERNAME}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - MAILGUN_API_KEY=${MAILGUN_API_KEY}
+      - MAILGUN_DOMAIN=${MAILGUN_DOMAIN}
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: redis:latest
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+
+volumes:
+  mongo-data:
