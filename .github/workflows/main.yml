@@ -22,7 +22,7 @@ jobs:
       run: npm ci
 
     - name: Run tests
-      run: npm test --config jest.config.js
+      run: npm test --config jest.config.cjs
       env:
         MONGODB_URL: ${{ secrets.MONGODB_URL }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
@@ -37,7 +37,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Deploy to production
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
