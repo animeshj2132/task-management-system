@@ -8,7 +8,7 @@ describe('Task Model Test', () => {
   let testUser;
 
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.MONGODB_URL);
     testUser = await User.create({
       username: 'taskuser',
       email: 'taskuser@example.com',

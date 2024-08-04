@@ -5,7 +5,7 @@ jest.setTimeout(30000);
 
 describe('User Model Test', () => {
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.MONGODB_URL);
   });
 
   afterAll(async () => {
