@@ -4,12 +4,14 @@ import User from '../src/models/userModel.js';
 import Task from '../src/models/taskModel.js';
 import mongoose from 'mongoose';
 
+jest.setTimeout(30000);
+
 describe('API Endpoints', () => {
   let token;
   let userId;
 
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.MONGODB_URL);
     
     // Create a test user and get token
     const response = await request(app)

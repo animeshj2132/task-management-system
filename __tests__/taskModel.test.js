@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import Task from '../src/models/taskModel.js';  
 import User from '../src/models/userModel.js';  
+
+jest.setTimeout(30000);
+
 describe('Task Model Test', () => {
   let testUser;
 
