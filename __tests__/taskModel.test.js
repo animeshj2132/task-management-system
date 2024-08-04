@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import Task from '../models/taskModel.js';
-import User from '../models/userModel.js';
-
+import Task from '../src/models/taskModel.js';  
+import User from '../src/models/userModel.js';  
 describe('Task Model Test', () => {
   let testUser;
 

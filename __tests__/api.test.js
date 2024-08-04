@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../app.js';
-import User from '../models/userModel.js';
-import Task from '../models/taskModel.js';
+import app from '../src/app.js'; 
+import User from '../src/models/userModel.js'; 
+import Task from '../src/models/taskModel.js';
 import mongoose from 'mongoose';
 
 describe('API Endpoints', () => {

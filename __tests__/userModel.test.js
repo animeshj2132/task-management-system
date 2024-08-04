@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import User from '../models/userModel.js';
+import User from '../src/models/userModel.js'; 
 
 describe('User Model Test', () => {
   beforeAll(async () => {
