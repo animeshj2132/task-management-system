@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "jest"
+    "test": "jest --config jest.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -39,23 +39,5 @@
     "jest": "^29.7.0",
     "nodemon": "^3.1.4",
     "supertest": "^7.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "testMatch": [
-      "**/__tests__/**/*.js",
-      "**/?(*.)+(spec|test).js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "node"
-    ],
-    "setupFilesAfterEnv": [
-      "./jest.setup.js"
-    ]
   }
 }
